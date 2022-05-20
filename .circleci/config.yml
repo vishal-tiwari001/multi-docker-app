@@ -38,7 +38,7 @@ jobs:
             docker push vishalt/multi-client-2
             docker push vishalt/multi-worker-2
             docker push vishalt/multi-service-2
-            docker push vishalt/multi-ngnix-2
+            docker push vishalt/multi-nginx-2
 workflows:
   version: 2
   testing:
