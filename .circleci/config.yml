@@ -9,14 +9,20 @@ jobs:
       - setup_remote_docker:
           version: '20.10.11'
       - run:
-          command: docker build -t vishalt/client-test -f ./clienttypescript/Dockerfile.dev ./clienttypescript
-          name: building the client for testing
+          command: docker build -t vishalt/multi-client-2 ./clienttypescript/Dockerfile.dev ./clienttypescript
+          name: building the production docker image
+      - run:
+          command: docker run vishalt/multi-worker-2 ./
+          name: building the production docker image
       - run:
           command: docker run vishalt/client-test npm test
-          name: run the client tests
-
+          name: building the production docker image
+      - run:
+          command: docker run vishalt/client-test npm test
+          name: building the production docker image
 workflows:
   version: 2
   testing:
     jobs:
       - client_testing
+      - build_and_push
