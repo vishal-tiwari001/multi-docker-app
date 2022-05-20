@@ -9,7 +9,7 @@ jobs:
       - setup_remote_docker:
           version: '20.10.11'
       - run:
-          command: docker build -t vishalt/client-test -f ./client-typescript/Dockerfile.dev ./client-typescript
+          command: docker build -t vishalt/client-test -f ./clienttypescript/Dockerfile.dev ./clienttypescript
           name: building the client for testing
       - run:
           command: docker run vishalt/client-test npm test
