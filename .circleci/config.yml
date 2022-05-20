@@ -6,7 +6,8 @@ jobs:
       - image: cimg/base:2022.03
     steps:
       - checkout
-      - setup_remote_docker: version:"20.10.11"
+      - setup_remote_docker:
+          version: '20.10.11'
       - run:
           command: docker build -t vishalt/client-test -f ./client-typescript/Dockerfile.dev ./client-typescript
           name: building the client for testing
