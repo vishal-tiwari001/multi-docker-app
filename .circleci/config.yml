@@ -9,17 +9,36 @@ jobs:
       - setup_remote_docker:
           version: '20.10.11'
       - run:
-          command: docker build -t vishalt/multi-client-2 ./clienttypescript/Dockerfile.dev ./clienttypescript
-          name: building the production docker image
-      - run:
-          command: docker run vishalt/multi-worker-2 ./
-          name: building the production docker image
+          command: docker build -t vishalt/client-test -f ./clienttypescript/Dockerfile.dev ./clienttypescript
+          name: building the client for testing
       - run:
           command: docker run vishalt/client-test npm test
+          name: run the client tests
+  build_and_push:
+    docker:
+      - image: cimg/base:2022.03
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: '20.10.11'
+      - run:
+          command: docker build -t vishalt/multi-client-2 ./clienttypescript
           name: building the production docker image
       - run:
-          command: docker run vishalt/client-test npm test
+          command: docker build -t vishalt/multi-worker-2 ./worker
           name: building the production docker image
+      - run:
+          command: docker build -t vishalt/multi-nginx-2 ./nginx
+          name: building the production docker image
+      - run:
+          command: docker build -t vishalt/multi-server-2 ./server
+          name: building the production docker image
+      - run:
+          command: |
+            docker push vishalt/multi-client-2
+            docker push vishalt/multi-worker-2
+            docker push vishalt/multi-service-2
+            docker push vishalt/multi-ngnix-2
 workflows:
   version: 2
   testing:
