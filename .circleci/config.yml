@@ -1,0 +1,21 @@
+version: 2.1
+
+jobs:
+  client_testing:
+    docker:
+      - image: cimg/base:2022.03
+    steps:
+      - checkout
+      - setup_remote_docker: version:"20.10.11"
+      - run:
+          command: docker-build -t vishalt/client-test -f ./client-typescript/Dockerfile.dev ./client-typescript
+          name: building the client for testing
+      - run:
+          command: docker run vishalt/client-test npm test
+          name: run the client tests
+
+workflows:
+  version: 2
+  testing:
+    jobs:
+      - client_testing
