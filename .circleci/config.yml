@@ -14,6 +14,7 @@ jobs:
       - run:
           command: docker run vishalt/client-test npm test
           name: run the client tests
+          no_output_timeout: 10s
   build_and_push:
     docker:
       - image: cimg/base:2022.03
@@ -33,6 +34,9 @@ jobs:
       - run:
           command: docker build -t vishalt/multi-server-2 ./server
           name: building the production docker image
+      - run:
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+          name: docker login
       - run:
           command: |
             docker push vishalt/multi-client-2
